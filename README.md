@@ -1,4 +1,4 @@
-The CHat Assisted Debugging (chad) package is an attempt to make debugging in R more user-friendly. It works by submitting error and stack trace messages to OpenAI to provide human-readable error interpretation, context, and debugging advice. It depends on the `cli`, `rlang`, and `OpenAI` packages as well as an active [OpenAI API key](https://platform.openai.com/api-keys).
+The CHat Assisted Debugging (chad) package is an attempt to make debugging in R more user-friendly. It works by submitting error and stack trace messages to OpenAI to provide human-readable error interpretation, context, and debugging advice. It depends on the `cli`, `rlang`, `jsonlite` and `OpenAI` packages as well as an active [OpenAI API key](https://platform.openai.com/api-keys).
 
 To install the package run:
 ```
