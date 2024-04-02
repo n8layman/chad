@@ -2,6 +2,7 @@
 #'
 #' @param model Which version of chatgpt would should the error be submitted to?
 #' @param prompt What system prompt should be used to interpret the error and stack trace?
+#' @param show_trace_JSON Whether to display the serialized trace
 #'
 #' @return
 #' @export
@@ -28,8 +29,11 @@ explain_last_error <- function(model = "gpt-3.5-turbo",
     return()
   })
 
+  print(e$trace)
   trace <- serialize_trace(e)
-  if(show_trace_JSON) jsonlite::prettify(trace)
+  if(show_trace_JSON == T) {
+    message(paste("Trace JSON:", trace))
+  }
 
   messages <-
     list(

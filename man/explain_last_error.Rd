@@ -7,13 +7,16 @@
 explain_last_error(
   model = "gpt-3.5-turbo",
   prompt =
-    "You provide human readable debugging help for the following error and stack trace in the R programing language."
+    "You provide human readable debugging help for the following error and stack trace in the R programing language.",
+  show_trace_JSON = F
 )
 }
 \arguments{
 \item{model}{Which version of chatgpt would should the error be submitted to?}
 
 \item{prompt}{What system prompt should be used to interpret the error and stack trace?}
+
+\item{show_trace_JSON}{Whether to display the serialized trace}
 }
 \description{
 Use ChatGPT to explain the last error
