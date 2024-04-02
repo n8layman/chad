@@ -23,6 +23,7 @@ explain_last_error <- function() {
     return()
   })
 
+  trace <- rapply(e$trace[[1]],deparse,how="replace") |> jsonlite::toJSON()
   messages <-
     list(
       list(
@@ -31,7 +32,11 @@ explain_last_error <- function() {
       ),
       list(
         "role" = "user",
-        "content" = paste("error:", e)
+        "content" = paste("error:", e$message)
+      ),
+      list(
+        "role" = "user",
+        "content" = paste("trace:", trace)
       )
     )
 
