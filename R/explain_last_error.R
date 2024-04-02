@@ -10,6 +10,7 @@
 #' @examples
 explain_last_error <- function(model = "gpt-3.5-turbo",
                                prompt = "You provide human readable debugging help for the following error and stack trace in the R programing language.",
+                               show_trace = T,
                                show_trace_JSON = F) {
 
   if(!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
@@ -29,7 +30,9 @@ explain_last_error <- function(model = "gpt-3.5-turbo",
     return()
   })
 
-  print(e$trace)
+  if(show_trace == T) {
+    print(e$trace)
+  }
   trace <- serialize_trace(e)
   if(show_trace_JSON == T) {
     message(paste("Trace JSON:", trace))
