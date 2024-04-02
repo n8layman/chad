@@ -4,7 +4,8 @@
 #' @export
 #'
 #' @examples
-explain_last_error <- function() {
+explain_last_error <- function(model = "gpt-3.5-turbo",
+                               prompt = "You provide human readable debugging help and a list of troubleshooting steps for the following error and stack trace in the R programing language.") {
 
   if(!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
     warning(cli::cli_text("OpenAI API key not found! To remedy:\n
@@ -23,12 +24,13 @@ explain_last_error <- function() {
     return()
   })
 
-  trace <- rapply(e$trace[[1]],deparse,how="replace") |> jsonlite::toJSON()
+  trace <- rapply(e$trace[[1]], deparse,how="replace") |> jsonlite::toJSON()
+
   messages <-
     list(
       list(
         "role" = "system",
-        "content" = "You provide human readable debugging help and a list of troubleshooting steps for the following error and stack trace in the R programing language."
+        "content" = prompt
       ),
       list(
         "role" = "user",
@@ -41,7 +43,7 @@ explain_last_error <- function() {
     )
 
   err <- openai::create_chat_completion(
-    model = "gpt-3.5-turbo",
+    model = model,
     messages = messages)['choices'][[1]]$message.content
 
   print(e$trace)
