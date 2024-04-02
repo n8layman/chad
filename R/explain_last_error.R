@@ -10,7 +10,7 @@
 #'
 #' @examples
 explain_last_error <- function(model = "gpt-3.5-turbo",
-                               prompt = "Give an explanation for the following error in the R programing language and use the provided stack trace to aid the user in resolving the problem.",
+                               prompt = "Give an explanation for the following error in the R programing language and use the provided stack trace to aid the user in resolving the problem. Do not ask for code snippets or any further information.",
                                show_trace = F,
                                show_trace_JSON = F) {
 
