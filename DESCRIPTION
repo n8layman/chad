@@ -7,6 +7,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    dplyr,
+    purrr,
+    jsonlite,
     openai,
     cli,
     rlang

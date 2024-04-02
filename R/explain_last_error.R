@@ -1,11 +1,15 @@
 #' Use ChatGPT to explain the last error
 #'
+#' @param model Which version of chatgpt would should the error be submitted to?
+#' @param prompt What system prompt should be used to interpret the error and stack trace?
+#'
 #' @return
 #' @export
 #'
 #' @examples
 explain_last_error <- function(model = "gpt-3.5-turbo",
-                               prompt = "You provide human readable debugging help and a list of troubleshooting steps for the following error and stack trace in the R programing language.") {
+                               prompt = "You provide human readable debugging help for the following error and stack trace in the R programing language.",
+                               show_trace_JSON = F) {
 
   if(!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
     warning(cli::cli_text("OpenAI API key not found! To remedy:\n
@@ -24,7 +28,8 @@ explain_last_error <- function(model = "gpt-3.5-turbo",
     return()
   })
 
-  trace <- rapply(e$trace[[1]], deparse,how="replace") |> jsonlite::toJSON()
+  trace <- serialize_trace(e)
+  if(show_trace_JSON) jsonlite::prettify(trace)
 
   messages <-
     list(
@@ -38,7 +43,7 @@ explain_last_error <- function(model = "gpt-3.5-turbo",
       ),
       list(
         "role" = "user",
-        "content" = paste("trace:", trace)
+        "content" = paste("JSON object representing the stack trace:", trace)
       )
     )
 
@@ -46,7 +51,6 @@ explain_last_error <- function(model = "gpt-3.5-turbo",
     model = model,
     messages = messages)['choices'][[1]]$message.content
 
-  print(e$trace)
   err <- paste("\nError:", e$message, "\n\nExplanation:", err |> unlist())
 
   message(err)

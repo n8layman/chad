@@ -4,7 +4,16 @@
 \alias{explain_last_error}
 \title{Use ChatGPT to explain the last error}
 \usage{
-explain_last_error()
+explain_last_error(
+  model = "gpt-3.5-turbo",
+  prompt =
+    "You provide human readable debugging help for the following error and stack trace in the R programing language."
+)
+}
+\arguments{
+\item{model}{Which version of chatgpt would should the error be submitted to?}
+
+\item{prompt}{What system prompt should be used to interpret the error and stack trace?}
 }
 \description{
 Use ChatGPT to explain the last error
