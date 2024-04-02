@@ -1,11 +1,13 @@
 Package: chad
-Type: Package
-Title: What the Package Does (Title Case)
+Title: CHat Assisted Debugging (CHAD)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: This packages submits rlang enhanced error messages and stack traces to OpenAI using the `openai` package.
+Authors@R: "Nathan Layman <layman@ecohealthalliance.org> [aut, cre] (<https://orcid.org/0000-0003-2238-6584>)"
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports:
+    openai,
+    cli,
+    rlang
+RoxygenNote: 7.2.3
