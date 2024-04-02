@@ -10,7 +10,7 @@
 #' @examples
 explain_last_error <- function(model = "gpt-3.5-turbo",
                                prompt = "Give an explanation for the following error in the R programing language and use the provided stack trace to aid the user in resolving the problem.",
-                               show_trace = T,
+                               show_trace = F,
                                show_trace_JSON = F) {
 
   if(!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
