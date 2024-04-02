@@ -3,6 +3,7 @@
 #' @param model Which version of chatgpt would should the error be submitted to?
 #' @param prompt What system prompt should be used to interpret the error and stack trace?
 #' @param show_trace_JSON Whether to display the serialized trace
+#' @param show_trace Whether to print the rlang trace
 #'
 #' @return
 #' @export
