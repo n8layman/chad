@@ -9,7 +9,7 @@
 #'
 #' @examples
 explain_last_error <- function(model = "gpt-3.5-turbo",
-                               prompt = "You provide human readable debugging help for the following error and stack trace in the R programing language.",
+                               prompt = "Give an explanation for the following error in the R programing language and use the provided stack trace to aid the user in resolving the problem.",
                                show_trace = T,
                                show_trace_JSON = F) {
 
@@ -31,11 +31,12 @@ explain_last_error <- function(model = "gpt-3.5-turbo",
   })
 
   if(show_trace == T) {
+    cat("Trace:\n")
     print(e$trace)
   }
   trace <- serialize_trace(e)
   if(show_trace_JSON == T) {
-    message(paste("Trace JSON:", trace))
+    message(paste("\nTrace JSON:", trace))
   }
 
   messages <-
