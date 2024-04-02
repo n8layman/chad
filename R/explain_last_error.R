@@ -20,7 +20,7 @@ explain_last_error <- function() {
   error = function(e) {
     message("This function depends on rlang enriched errors. Please run `rlang::global_entrace()` or add it to your .RProfile before running whatever code generated the error you want to explain. Loading it now.`\n")
     rlang::global_entrace()
-    e
+    return()
   })
 
   messages <-
