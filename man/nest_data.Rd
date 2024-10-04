@@ -2,17 +2,41 @@
 % Please edit documentation in R/serialize_trace.R
 \name{nest_data}
 \alias{nest_data}
-\title{Function to recursively nest data}
+\title{Nest Data for Error Trace Serialization}
 \usage{
 nest_data(data, parent_id = 0, level_name = NULL)
 }
 \arguments{
-\item{data}{The data to be recursively nested}
+\item{data}{A dataframe containing error trace data, with at least `call` and `parent` columns.}
 
-\item{parent_id}{The identity of the parent call}
+\item{parent_id}{A numeric value representing the parent ID of the current call in the trace. Default is 0.}
 
-\item{level_name}{The name of the current call}
+\item{level_name}{A string representing the name of the current level of the trace. Default is NULL.}
+}
+\value{
+A nested list representing the hierarchy of error trace calls. If no nested levels exist,
+the function returns the current level name; otherwise, it returns a named list containing the nested structure.
 }
 \description{
-Function to recursively nest data
+This function is used to recursively nest a dataframe of error trace calls for serialization
+into a structured JSON format. It is primarily utilized in conjunction with the `serialize_trace`
+function to process and organize error trace data into a nested hierarchy based on parent-child
+relationships between function calls.
+}
+\note{
+This function uses `dplyr` for data manipulation, `purrr` for recursion, and `stats` for creating
+named lists with `setNames`. It is a key part of the error trace serialization process, as seen in the
+`serialize_trace` function.
+}
+\examples{
+# Used within the `serialize_trace` function to organize and serialize trace data:
+tryCatch(
+    sqrt("a"),
+    error = function(e) {
+    print(serialize_trace(e))
+})
+
+}
+\author{
+Nathan C. Layman
 }

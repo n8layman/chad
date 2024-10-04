@@ -12,7 +12,7 @@
 #'
 #' @note Requires OpenAI API key. Warning will be issued and function will terminate if it is not set.
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #' roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
 #' }
@@ -23,7 +23,7 @@ roxygenize <- function(func,
                                          "param",
                                          "return",
                                          "note",
-                                         "example",
+                                         "examples",
                                          "export"),
                        provided_tags = list(author = "Nathan C. Layman"), # Named list of any provided tags as key-value pairs
                        model = "gpt-4",
