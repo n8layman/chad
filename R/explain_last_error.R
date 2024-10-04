@@ -23,7 +23,8 @@
 explain_last_error <- function(model = "gpt-4",
                                prompt = "Give an explanation for the following error in the R programing language and use the provided stack trace to aid the user in resolving the problem. Do not ask for code snippets or any further information.",
                                show_trace = F,
-                               show_trace_JSON = F) {
+                               show_trace_JSON = F,
+                               code = NULL) {
 
   if(!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
     warning(cli::cli_text("OpenAI API key not found! To remedy:\n
@@ -46,9 +47,11 @@ explain_last_error <- function(model = "gpt-4",
     cat("Trace:\n")
     print(e$trace)
   }
+
   trace <- serialize_trace(e)
+
   if(show_trace_JSON == T) {
-    message(paste("\nTrace JSON:", trace))
+    message(paste("\nTrace JSON:", trace |> jsonlite::prettify()))
   }
 
   messages <-
@@ -66,6 +69,14 @@ explain_last_error <- function(model = "gpt-4",
         "content" = paste("JSON object representing the stack trace:", trace)
       )
     )
+
+  if(!is.null(code)) {
+    # Deparse the function code into a character vector
+    code_string <- deparse(code) |> paste(collapse = "\n")
+
+    messages <- c(messages, list(list("role" = "user", "content" = glue::glue("The code that produced the error was:
+    {code_string}"))))
+  }
 
   err <- openai::create_chat_completion(
     model = model,

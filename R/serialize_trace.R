@@ -26,7 +26,7 @@
 #' @export
 serialize_trace <- function(e, drop = T) {
   trace <- as.data.frame(e$trace) |> dplyr::rowwise() |> dplyr::mutate(call = paste(deparse(call), collapse = "\n"))
-  if(drop) trace <- trace |> dplyr::filter(visible == T)
+  if(drop) trace <- trace |> dplyr::filter(visible == TRUE)
   trace <- nest_data(trace) |> jsonlite::toJSON(auto_unbox = TRUE)
 }
 
