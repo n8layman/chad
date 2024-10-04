@@ -9,7 +9,8 @@ roxygenize(
   required_tags = c("author", "param", "return", "note", "examples", "export"),
   provided_tags = list(author = "Nathan C. Layman"),
   model = "gpt-4",
-  prompt = "You parse a function definition to automatically construct roxygen headers."
+  prompt =
+    "You parse a function definition to automatically construct roxygen headers returning only the header."
 )
 }
 \arguments{
@@ -34,7 +35,7 @@ Requires OpenAI API key. Warning will be issued and function will terminate if i
 }
 \examples{
 \dontrun{
-roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
+  roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
 }
 
 }

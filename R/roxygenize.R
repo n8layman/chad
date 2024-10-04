@@ -14,17 +14,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
+#'   roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
 #' }
 #'
-#' @export roxygenize
+#' @export
 roxygenize <- function(func,
                        required_tags = c("author",
-                                         "param",
-                                         "return",
-                                         "note",
-                                         "examples",
-                                         "export"),
+                 "param",
+                 "return",
+                 "note",
+                 "examples",
+                 "export"),
                        provided_tags = list(author = "Nathan C. Layman"), # Named list of any provided tags as key-value pairs
                        model = "gpt-4",
                        prompt = "You parse a function definition to automatically construct roxygen headers returning only the header.") {
@@ -70,32 +70,7 @@ roxygenize <- function(func,
     Return only the required header and nothing else."
   )
 
-  example <- glue::glue("Here is an axample of what the response should look like:
-                        #' Preprocess GLW Data
-                        #'
-                        #' This function performs preprocessing tasks on glw datasets.
-                        #'
-                        #' @author Nathan C. Layman
-                        #'
-                        #' @param glw_directory_dataset Directory containing GLW datasets. This directory is created if it doesn't exist.
-                        #' @param glw_urls URLs of the GLW datasets to download.
-                        #' @param continent_raster_template Template to be used for terra raster operations.
-                        #' @param overwrite Boolean flag indicating whether existing preprocessed files should be overwritten. Default is FALSE.
-                        #' @param ... Additional parameters not used by this function but included for generic function compatibility.
-                        #'
-                        #' @return A character vector of filepaths to the preprocessed GLW dataset files.
-                        #'
-                        #' @note This function creates a new directory, downloads datasets, processes data and saves results
-                        #'       as parquet files in the specified directory.
-                        #'
-                        #' @example
-                        #' preprocess_glw_data(glw_directory_dataset = './data',
-                        #'                     glw_urls = c('http://example.com/dataset1', 'http://example.com/dataset2'),
-                        #'                     continent_raster_template = raster_template,
-                        #'                     overwrite = TRUE)
-                        #'
-                        #' @export
-                        #' ")
+  example <- "Here is an axample of what the response should look like:\n#' Preprocess GLW Data\n#'\n#' This function performs preprocessing tasks on glw datasets.\n#'\n#' @author Nathan C. Layman\n#'\n#' @param glw_directory_dataset Directory containing GLW datasets. This directory is created if it doesn't exist.\n#' @param glw_urls URLs of the GLW datasets to download.\n#' @param continent_raster_template Template to be used for terra raster operations.\n#' @param overwrite Boolean flag indicating whether existing preprocessed files should be overwritten. Default is FALSE.\n#' @param ... Additional parameters not used by this function but included for generic function compatibility.\n#'\n#' @return A character vector of filepaths to the preprocessed GLW dataset files.\n#'\n#' @note This function creates a new directory, downloads datasets, processes data and saves results\n#'       as parquet files in the specified directory.\n#'\n#' @examples\n#' preprocess_glw_data(glw_directory_dataset = './data',\n#'                     glw_urls = c('http://example.com/dataset1', 'http://example.com/dataset2'),\n#'                     continent_raster_template = raster_template,\n#'                     overwrite = TRUE)\n#'\n#' @export\n#' "
 
   messages <-
     list(
