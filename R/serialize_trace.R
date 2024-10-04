@@ -30,8 +30,10 @@ nest_data <- function(data, parent_id = 0, level_name = NULL) {
   nested_list <- subset$call %>%
     purrr::map(~nest_data(data, match(.x, data$call), .x)) |>
     unlist(recursive = FALSE)
+
   if (length(nested_list) == 0) {
     return(level_name)
   }
+
   return(stats::setNames(list(nested_list), level_name))
 }
