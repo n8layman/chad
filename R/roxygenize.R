@@ -61,10 +61,11 @@ roxygenize <- function(func,
   context <- glue::glue(
     "Gennerate a complete Roxygen documentation header for the provided R function.
     The function is named '{func_name}' and has the following parameters: {params}.
+    Come up with a title and description and include them at the top of the header.
     The required tags include: {paste(required_tags, collapse = ', ')} in that order.
     Please use the function definition provided to fill in the details for these tags.
     Separate diffent discrete tags with an empty roxygen header line. For example @author
-    and @param should be separated but not differnt @param tags.
+    and @param should be separated but not different @param tags.
     Be concise but complete in your descriptions of the parameters, return values, and examples.
     Return only the header and no other text or responses."
   )
