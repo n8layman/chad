@@ -57,8 +57,6 @@ serialize_trace <- function(e, drop = T) {
 #'     error = function(e) {
 #'     print(serialize_trace(e))
 #' })
-#'
-#' @export
 nest_data <- function(data, parent_id = 0, level_name = NULL) {
 
   subset <- data |> dplyr::filter(parent == parent_id)

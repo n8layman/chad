@@ -35,7 +35,6 @@ tryCatch(
     error = function(e) {
     print(serialize_trace(e))
 })
-
 }
 \author{
 Nathan C. Layman
