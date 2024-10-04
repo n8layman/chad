@@ -1,25 +1,23 @@
-#' Parse a Function to Construct Roxygen Headers
+#' 'roxygenize' function is used to automatically construct roxygen headers for a given function.
 #'
 #' @author Nathan C. Layman
 #'
-#' @param func The function to parse
-#' @param required_tags A vector specifying the tags to include. Default is c("title", "author", "param", "return", "note", "example", "export")
-#' @param provided_tags A list of tags and their associated values to include in the roxygen header. Default is list(author = "Nathan C. Layman")
-#' @param model An OpenAI model to use. Default is "gpt-3.5-turbo".
-#' @param prompt The prompt to guide the OpenAI model. Default is a specific instruction for roxygen header creation.
+#' @param func Function for which the roxygen documentation needs to be generated.
+#' @param required_tags Vector of tag names required for the documentation. Default is c("author", "param", "return", "note", "example", "export").
+#' @param provided_tags List of provided tags in the format (tag_name = "tag_content"). Default is list(author = "Nathan C. Layman").
+#' @param model The model that will be used for generation. Default is "gpt-4".
+#' @param prompt The initial prompt that guides the documentation generation. Default is "You parse a function definition to automatically construct roxygen headers."
 #'
-#' @return The roxygen header of the given function.
+#' @return Prints out the constructed roxygen header.
 #'
-#' @note OpenAI API key is required to run this function. If the API key is not set, a warning message is given with instructions on where to get the API key and how to set it.
+#' @note Requires OpenAI API key. Warning will be issued and function will terminate if it is not set.
 #'
 #' @example
 #' \dontrun{
-#' function_definition <- function(x) { return(x^2) }
-#' roxygen_header <- create_roxygen(function_definition)
-#' print(roxygen_header)
+#' roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
 #' }
 #'
-#' @export
+#' @export roxygenize
 roxygenize <- function(func,
                        required_tags = c("author",
                                          "param",
@@ -39,11 +37,18 @@ roxygenize <- function(func,
     return()
   }
 
+  # Figure out name of function
+  func_name <- deparse(substitute(func))
+
   # Deparse the function code into a character vector
   func_code <- deparse(func)
 
   # Collapse the vector into a single string with newlines
   func_code_string <- paste("Here is the function definition:", func_code, sep = "\n", collapse = "\n")
+
+  # Figure out function arguments
+  func_args <- formals(func)
+  params <- paste(names(func_args), collapse = ", ")
 
   required_tags <-  c("author",
                       "param",
@@ -52,7 +57,17 @@ roxygenize <- function(func,
                       "example",
                       "export")
 
-  context <- glue::glue("Come up with a title for the function and return the {paste(required_tags, collapse = ', ')} tags in that order. If possible fill out tag details using the provided function definition or using the details provided. Separate tags with empty roxygen lines. Only return the header not the function code or any other text.")
+  # Dynamic context message for the model prompt
+  context <- glue::glue(
+    "Gennerate a complete Roxygen documentation header for the provided R function.
+    The function is named '{func_name}' and has the following parameters: {params}.
+    The required tags include: {paste(required_tags, collapse = ', ')} in that order.
+    Please use the function definition provided to fill in the details for these tags.
+    Separate diffent discrete tags with an empty roxygen header line. For example @author
+    and @param should be separated but not differnt @param tags.
+    Be concise but complete in your descriptions of the parameters, return values, and examples.
+    Return only the header and no other text or responses."
+  )
 
   messages <-
     list(

@@ -1,14 +1,28 @@
-#' Use ChatGPT to explain the last error
+#' Error Explanation Using OpenAI
 #'
-#' @param model Which version of chatgpt would should the error be submitted to?
-#' @param prompt What system prompt should be used to interpret the error and stack trace?
-#' @param show_trace_JSON Whether to display the serialized trace
-#' @param show_trace Whether to print the rlang trace
+#' @author Nathan C. Layman
 #'
-#' @return
-#' @export
+#' @param model (default "gpt-3.5-turbo") The OpenAI model to use for error explanation.
+#' @param prompt (default instruction) Set the instructions for OpenAI model.
+#' @param show_trace (logical, default F) Flag to decide whether the trace stack should be shown.
+#' @param show_trace_JSON (logical, default F) Flag to decide whether the JSON representation of the trace stack should be shown.
+#'
+#' @return A string explaining the error returned by OpenAI model.
+#'
+#' @note This function requires an OPENAI_API_KEY to operate. Request one from https://platform.openai.com/api-keys and set it using Sys.setenv.
+#'       Also, for the error stack trace, the function depends on rlang enriched errors.
 #'
 #' @examples
+#' \dontrun{
+#' tryCatch({
+#'   # Trigger an error
+#'   invalid_code
+#' }, error = function(e) {
+#'   # Use AI to understand error
+#'   explain_last_error()
+#' })
+#' }
+#' @export
 explain_last_error <- function(model = "gpt-3.5-turbo",
                                prompt = "Give an explanation for the following error in the R programing language and use the provided stack trace to aid the user in resolving the problem. Do not ask for code snippets or any further information.",
                                show_trace = F,
