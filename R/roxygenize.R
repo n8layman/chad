@@ -27,7 +27,7 @@ roxygenize <- function(func,
                                          "export"),
                        provided_tags = list(author = "Nathan C. Layman"), # Named list of any provided tags as key-value pairs
                        model = "gpt-4",
-                       prompt = "You parse a function definition to automatically construct roxygen headers.") {
+                       prompt = "You parse a function definition to automatically construct roxygen headers returning only the header.") {
 
   if(!nzchar(Sys.getenv("OPENAI_API_KEY"))) {
     warning(cli::cli_text("OpenAI API key not found! To remedy:\n
@@ -54,20 +54,20 @@ roxygenize <- function(func,
                       "param",
                       "return",
                       "note",
-                      "example",
+                      "examples",
                       "export")
 
   # Dynamic context message for the model prompt
   context <- glue::glue(
-    "Gennerate a complete Roxygen documentation header for the provided R function.
+    "Generate a complete Roxygen documentation header for the provided R function.
     The function is named '{func_name}' and has the following parameters: {params}.
-    Come up with a title and description and include them at the top of the header.
+    Come up with a title and description and include them at the top of the header every time.
     The required tags include: {paste(required_tags, collapse = ', ')} in that order.
     Please use the function definition provided to fill in the details for these tags.
     Separate diffent discrete tags with an empty roxygen header line. For example @author
     and @param should be separated but not different @param tags.
     Be concise but complete in your descriptions of the parameters, return values, and examples.
-    Return only the header and no other text or responses."
+    Return only the required header and nothing else."
   )
 
   messages <-
