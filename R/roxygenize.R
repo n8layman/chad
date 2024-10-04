@@ -1,30 +1,36 @@
-#' 'roxygenize' function is used to automatically construct roxygen headers for a given function.
+#' Automatically Generate Roxygen Headers For a Given Function
+#'
+#' This function parses a given function definition and automatically constructs roxygen headers
+#' using any provided information such as required_tags and author details.
+#' It can handle varying cases where tags are required but not provided.
 #'
 #' @author Nathan C. Layman
 #'
-#' @param func Function for which the roxygen documentation needs to be generated.
-#' @param required_tags Vector of tag names required for the documentation. Default is c("author", "param", "return", "note", "example", "export").
-#' @param provided_tags List of provided tags in the format (tag_name = "tag_content"). Default is list(author = "Nathan C. Layman").
-#' @param model The model that will be used for generation. Default is "gpt-4".
-#' @param prompt The initial prompt that guides the documentation generation. Default is "You parse a function definition to automatically construct roxygen headers."
+#' @param func Function definition that needs to be parsed for roxygen header construction.
+#' @param required_tags Character vector. Default values are "author", "param", "return", "note", "examples",
+#' and "export". Tags entered here should be in order.
+#' @param provided_tags List. Author tag details to be parsed onto the roxygen header of the function. Default is "Nathan C. Layman".
+#' @param model Character. OpenAI model to be used. Default is 'gpt-4'.
+#' @param prompt Character. The prompt defines the context for the openai model to generate the Roxygen documentation.
 #'
-#' @return Prints out the constructed roxygen header.
+#' @return Returns roxygen headers that were constructed for the provided function.
 #'
-#' @note Requires OpenAI API key. Warning will be issued and function will terminate if it is not set.
+#' @note User should ensure that the function definition, tag details and Openai API key are properly formatted and available
+#' for this function to run smoothly.
 #'
 #' @examples
-#' \dontrun{
-#'   roxygenize(my_func, required_tags = c("author", "param", "return"), provided_tags = list(author = "Nathan C. Layman"), model = "gpt-4", prompt = "Automatically construct roxygen headers for my_func.")
-#' }
+#' roxygenize(`function (func, required_tags = c("author", "param", "return",
+#' "note", "examples", "export"), provided_tags = list(author = "Nathan C. Layman"),
+#'model = "gpt-4", prompt = "You parse a function definition to automatically construct roxygen headers returning only the header.")
+#'`,
+#' required_tags  = c("author", "param", "return", "note", "examples", "export"),
+#' provided_tags = list(author = "Nathan C. Layman"),
+#' model = "gpt-4",
+#' prompt = "You parse a function definition to automatically construct roxygen headers returning only the header.")
 #'
 #' @export
 roxygenize <- function(func,
-                       required_tags = c("author",
-                 "param",
-                 "return",
-                 "note",
-                 "examples",
-                 "export"),
+                       required_tags = c("author","param","return","note","examples","export"),
                        provided_tags = list(author = "Nathan C. Layman"), # Named list of any provided tags as key-value pairs
                        model = "gpt-4",
                        prompt = "You parse a function definition to automatically construct roxygen headers returning only the header.") {
